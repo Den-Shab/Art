@@ -1,0 +1,177 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.6.3
+-- Dumped by pg_dump version 9.6.3
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+DROP DATABASE project;
+--
+-- Name: project; Type: DATABASE; Schema: -; Owner: -
+--
+
+CREATE DATABASE project;
+
+
+\connect project
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: art_gallery; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA art_gallery;
+
+
+--
+-- Name: SCHEMA art_gallery; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON SCHEMA art_gallery IS 'Art gallery project database schema';
+
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = art_gallery, pg_catalog;
+
+--
+-- Name: lang(); Type: FUNCTION; Schema: art_gallery; Owner: -
+--
+
+CREATE FUNCTION lang() RETURNS text
+    LANGUAGE plpgsql STABLE
+    AS $$
+BEGIN
+  RETURN current_setting('art_gallery.lang');
+EXCEPTION
+  WHEN undefined_object THEN
+    RETURN NULL;
+END;
+$$;
+
+
+--
+-- Name: now(); Type: FUNCTION; Schema: art_gallery; Owner: -
+--
+
+CREATE FUNCTION now() RETURNS timestamp with time zone
+    LANGUAGE sql IMMUTABLE
+    AS $$SELECT '2017-08-15 18:00:00'::TIMESTAMP AT TIME ZONE 'Europe/Moscow';$$;
+
+
+--
+-- Name: FUNCTION now(); Type: COMMENT; Schema: art_gallery; Owner: -
+--
+
+COMMENT ON FUNCTION now() IS 'Point in time according to which the data are generated';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: genre; Type: TABLE; Schema: art_gallery; Owner: -
+--
+
+CREATE TABLE genre (
+    genre_id serial PRIMARY KEY,
+    genre_name character varying(13) NOT NULL,
+    best smallint check (best < 10 and best >= 0)
+);
+
+--
+-- Name: painter; Type: TABLE; Schema: art_gallery; Owner: -
+--
+
+CREATE TABLE painter (
+    painter_id serial PRIMARY KEY,
+    painter_name character varying(30) NOT NULL,
+    birth smallint NOT NULL check (birth > 0)
+);
+
+--
+-- Name: arts; Type: TABLE; Schema: art_gallery; Owner: -
+--
+
+CREATE TABLE arts (
+    painting_id serial NOT NULL PRIMARY KEY,
+    painting_name character varying(50) NOT NULL,
+    painter_id serial NOT NULL references painter(painter_id),
+    genre_id serial references genre(genre_id),
+    year integer NOT NULL,
+    description character varying(1000),
+    reff character varying(1000)
+);
+
+--
+-- Name: quiz_type; Type: TABLE; Schema: art_gallery; Owner: -
+--
+
+create table quiz_types (
+	type_id serial PRIMARY KEY,
+	type_name character varying(8)
+);
+
+--
+-- Name: quiz; Type: TABLE; Schema: art_gallery; Owner: -
+--
+
+CREATE TABLE quiz (
+    quiz_id serial NOT NULL PRIMARY KEY,
+    quiz_class serial references quiz_types(type_id),
+    genre_id serial references genre(genre_id),
+    average_result numeric(6,3)
+);
+
+--
+-- Name: users; Type: TABLE; Schema: art_gallery; Owner: -
+--
+
+CREATE TABLE users (
+    user_id serial NOT NULL PRIMARY KEY,
+    user_name character varying(16),
+    user_password character varying(16),
+    favourite_gen serial references genre(genre_id)
+);
+
+--
+-- Name: history; Type: TABLE; Schema: art_gallery; Owner: -
+--
+
+create table history (
+	try_id serial NOT NULL PRIMARY KEY,
+	quiz_id	serial references quiz(quiz_id),
+	user_id serial references users(user_id),
+	res smallint
+);
+	
