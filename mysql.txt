@@ -1,0 +1,52 @@
+CREATE TABLE genre (
+    genre_id serial PRIMARY KEY,
+    genre_name varchar(13) NOT NULL,
+    best int
+);
+
+
+CREATE TABLE painter (
+    painter_id serial PRIMARY KEY,
+    painter_name varchar(30) NOT NULL,
+    birth smallint NOT NULL
+);
+
+
+CREATE TABLE arts (
+    painting_id serial NOT NULL PRIMARY KEY,
+    painting_name varchar(50) NOT NULL,
+    painter_id int NOT NULL references painter(painter_id),
+    genre_id int references genre(genre_id),
+    yer integer NOT NULL,
+    description varchar(1000),
+    reff varchar(1000)
+);
+
+
+create table quiz_types (
+	type_id serial PRIMARY KEY,
+	type_name varchar(8)
+);
+
+
+CREATE TABLE quiz (
+    quiz_id serial NOT NULL PRIMARY KEY,
+    quiz_class int references quiz_types(type_id),
+    genre_id int references genre(genre_id),
+    average_result numeric(6,3)
+);
+
+
+CREATE TABLE users (
+    user_id serial NOT NULL PRIMARY KEY,
+    user_name varchar(16),
+    user_password varchar(16),
+    favourite_gen int references genre(genre_id)
+);
+
+create table history (
+	try_id serial NOT NULL PRIMARY KEY,
+	quiz_id	int references quiz(quiz_id),
+	user_id int references users(user_id),
+	res smallint
+);

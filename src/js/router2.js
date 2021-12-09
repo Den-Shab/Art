@@ -65,7 +65,7 @@ const footer = document.querySelector('footer');
         const sett = createDiv('sett', "<a href='#/settings'><img src='assets/home/carbon_settings.svg'></a>");
         const mainDiv = createDiv('main-home', "");
         const logo = createDiv('logo', "<img src='assets/home/logo.svg'>");
-        const buttons =  createDiv('home-buttons', "<a class='home_button'  href='#/artists'>Artists quiz</a><a class='home_button' href='#/pics'>Pictures quiz</a>")
+        const buttons =  createDiv('home-buttons', "<a class='home_button'  href='#/artists'>Artists quiz</a><a class='home_button' href='#/pics'>Pictures quiz</a><form action='user.php' method='POST'><input type='text' name='Pic' style='display:none'/><input type='submit' value='Отправить'> </form>");
         myDiv.appendChild(sett);
         myDiv.appendChild(mainDiv);
         mainDiv.appendChild(logo);
@@ -261,6 +261,15 @@ const footer = document.querySelector('footer');
         })
         setAuthorAndPictures(pic1,pic2,pic3,pic4,category,popup,quest);
     });
+    template('ap', () => {
+        footer.style.display="none";
+        let myDiv = document.getElementById(appDiv);
+        myDiv.innerHTML = "";
+        const header = createDiv('header-ap', "<h1>Pictures</h1>");
+        const main = createDiv('main-ap', "");
+        myDiv.appendChild(header);
+        myDiv.appendChild(main);
+    })
     route("/",'home-view');
     route('/settings', 'settings-view');
     route('/artists', 'artists-category');
@@ -277,6 +286,7 @@ const footer = document.querySelector('footer');
     route('/art-quest3', 'artists-questions');
     route('/art-quest4', 'artists-questions');
     route('/art-quest5', 'artists-questions');
+    route('/all_pics', 'ap');
     window.addEventListener('load', router);
     window.addEventListener('hashchange', router);
 })()

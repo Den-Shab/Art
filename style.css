@@ -424,3 +424,29 @@ footer{
     color:black;
     transition: background-color 0.7s ease, color 0.2s linear;
 }
+
+
+#main-ap{
+    display:flex;
+    justify-content:space-between;
+}
+
+
+.rect{
+    width:100px;
+    height:100px;background-color:red;
+}
+
+.block{
+    color:white;
+}
+
+
+.main-block{
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.block{
+    width:25%;
+}
