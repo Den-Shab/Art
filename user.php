@@ -19,11 +19,14 @@
     </header>
     <div class="main-block">
         <?php
-            $link = new mysqli("localhost", "root", "","art-quiz");
+			$link = new mysqli("localhost", "root", "","art");
             mysqli_query($link,'SET NAMES utf8');
             
             if($_POST["Pic"] != ""){
-                $result = $link->query("SELECT * FROM arts WHERE painting_name LIKE '%$_POST[Pic]%' ");
+				$stmt = $link->prepare('CALL finding(?)');
+				$stmt->bind_param("s", $_POST['Pic']);
+				$stmt->execute();
+                $result = $stmt->get_result();
                 $enter = "<br>";
                 foreach ($result as $row) {
                     $string = "painting:" . $row['painting_name'] . $enter;
@@ -31,16 +34,19 @@
                 }
             }
             elseif($_POST["Del"] != ""){
-                $link->query("DELETE FROM arts WHERE painting_name ='$_POST[Del]'");
+				$stmt = $link->prepare('CALL del(?)');
+				$stmt->bind_param("s", $_POST['Del']);
+				$stmt->execute();
+                $result = $stmt->get_result();
                 $enter = "<br>";
-                $result = $link->query("SELECT * FROM arts");
+                $result = $link->query('Call pr()');
                 foreach ($result as $row) {
                     $string = "painting:" . $row['painting_name'] . $enter;
                     echo "<div class = 'block'>" . $string .  "</div>";
                 }
             }
             else{
-                $result = $link->query("SELECT * FROM arts");
+                $result = $link->query('Call pr()');
                 $enter = "<br>";
                 foreach ($result as $row) {
                     $string = "painting:" . $row['painting_name'] . $enter;
