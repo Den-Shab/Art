@@ -28,6 +28,19 @@ function getBetwPopUp(popup, Quiz,var1,var2,var3,var4,img,category){
             }
             else{
                 popup.lastChild.removeEventListener('click',next);
+                let arr = [Quiz.rightAnswers,Quiz.category + 1,2];
+                $.ajax({
+                    url: 'new.php',
+                    type: 'POST',
+                    data: {myarray: arr},
+                    success: function(data)
+                    {
+                        console.log(data);
+                    },
+                    error: function(xhr, ajaxOptions, thrownError){
+                        alert(thrownError);
+                    }            
+                });
                 popup.innerHTML = `<h3>YOUR RESULT IS:<br>${Quiz.rightAnswers}/10</h3><a href='#/pics' id='finish'><div class='next'><p>finish</p></div></a>`;
                 popup.style.display ='block';
                 playedPics[Quiz.category] = 1;
@@ -66,7 +79,7 @@ function oneInFour(){
 class PicQuiz {
     category = 0;
     order = 0;
-    array = [[1,2,3,4,5,6,7,8,9,10],[10,23,49,56,61,65,70,83,98,101],[8,11,13,15,21,38,39,44,60,76],[1,57,60,114,117,118,134,140,148,163],[22,31,43,64,96,112,132,202,225,237],[18,86,97,105,110,153,241,242,243,244]];
+    array = [[4,30,37,46,66,74,78,90,91,102],[10,23,49,56,61,65,70,83,98,101],[8,11,13,15,21,38,39,44,60,76],[1,57,60,114,117,118,134,140,148,163],[22,31,43,64,96,112,132,202,225,237],[18,86,97,105,110,153,241,242,243,244]];
     authors = [[],[],[],[],[],[],[],[],[],[]];
     rightAnswers = 0;
 }

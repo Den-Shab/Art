@@ -33,6 +33,19 @@ function getBetwPopUpAut(pic1,pic2,pic3,pic4,category,popup,quest){
                 setAuthorAndPictures(pic1,pic2,pic3,pic4,category,popup,quest);
             }
             else{
+                let arr = [AutQuiz.rightAnswers,AutQuiz.category + 1,1];
+                $.ajax({
+                    url: 'new.php',
+                    type: 'POST',
+                    data: {myarray: arr},
+                    success: function(data)
+                    {
+                        console.log(data);
+                    },
+                    error: function(xhr, ajaxOptions, thrownError){
+                        alert(thrownError);
+                    }            
+                });
                 popup.lastChild.removeEventListener('click',next);
                 popup.innerHTML = `<h3>YOUR RESULT IS:<br>${AutQuiz.rightAnswers}/10</h3><a href='#/artists' id='finish'><div class='next'><p>finish</p></div></a>`;
                 popup.style.height='200px';
