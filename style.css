@@ -450,3 +450,30 @@ footer{
 .block{
     width:25%;
 }
+
+.headerAllPics{
+    width:80%;
+    margin:auto;
+    display:flex;
+    justify-content:space-around;
+    margin-bottom: 50px;
+}
+
+.headerAllPics h3{
+    color:white;
+}
+
+
+.headerAllPics:lastChild{
+    display:flex;
+    flex-direction: column;
+}
+
+.headerAllPics div{
+    margin-bottom: 15px;
+}
+.ExAllP{
+    position:absolute;
+    top:10px;
+    right:10px;
+}
