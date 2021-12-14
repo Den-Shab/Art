@@ -40,7 +40,9 @@
     </header>
     <div class="main-block">
         <?php 
-			$link = new mysqli("localhost", "root", "","art-quiz");
+			error_reporting(E_ALL);
+			ini_set('display_errors', 1);
+			$link = new mysqli("localhost", "root", "","art");
             mysqli_query($link,'SET NAMES utf8');
             if($_POST["Pic"] != ""){
 				$stmt = $link->prepare('CALL finding(?)');
@@ -55,7 +57,7 @@
                     echo "<div class = 'block'>" . $string .  "</div>";
                 }
             }
-            elseif( (!isset($_POST["Del"])) &&  ($_POST["Del"] != "")){
+            elseif( array_key_exists('Del', $_POST) &&  ($_POST["Del"] != "")){
 				$stmt = $link->prepare('CALL del(?)');
 				$stmt->bind_param("s", $_POST['Del']);
 				$stmt->execute();
@@ -68,10 +70,13 @@
                 }
                 $_POST["Del"] = "";
             }
-            elseif($_POST["EnterPicName"]!="" && $_POST["EnterAuthorName"]!=""){
-
-                //$count = $link->query("SELECT count(*) FROM `arts` WHERE painting_name=$_POST['EnterPicName'] and $_POST['EnterAuthorName']");
-                $id = $link->query("SELECT * FROM `arts` ORDER BY `painting_id` DESC LIMIT 1");
+            elseif( array_key_exists("EnterPicName", $_POST) && array_key_exists("EnterAuthorName", $_POST) && $_POST["EnterPicName"]!="" && $_POST["EnterAuthorName"]!=""){
+                $query = 'Call last(?)';
+				$a = 1;
+				$stmt = mysqli_prepare($link, $query);
+				mysqli_stmt_bind_param($stmt, "i", $a);
+				mysqli_stmt_execute($stmt);
+				$id = mysqli_stmt_get_result($stmt);
                 $k=0;
                 $res = 0;
                 foreach ($id as $row) {
@@ -80,30 +85,52 @@
                       $res = $row['painting_id'] + 1;
                     }
                 }
+				mysqli_free_result($id);
+				mysqli_next_result($link);
                 $destination = "C:/Server/data/htdocs/Art/assets/pics_quiz/new_pics/";
                 $format = ".jpg";
                 $d = $destination  . $res . $format;
-                if (rename($_FILES['myFile']['tmp_name'], $d)) 
-                {
-                    echo "good";
-                } else 
-                {
-                    echo "bad";
-                }
                 $aut = $_POST['EnterAuthorName'];
-                $sql = "INSERT INTO  painter(painter_name,birth) values('$aut',0)";
-                if ($link->query($sql) === TRUE) {
-                    echo "New record created successfully";
-                } else {
-                    echo "Error: " . $sql . "<br>" . $link->error;
-                }
-                $pic = $_POST["EnterPicName"];
-                $sql2 = "INSERT INTO arts (painter_id,painting_name,yer,reff) values ((select painter_id from painter where (painter_name = '$aut')),'$pic',0,'$d')";
-                if ($link->query($sql2) === TRUE) {
-                    echo "New record created successfully";
-                } else {
-                    echo "Error: " . $sql . "<br>" . $link->error;
-                }
+				$query = 'CALL checkone(?)';
+				$stmt = mysqli_prepare($link, $query);
+				mysqli_stmt_bind_param($stmt, "s", $aut);
+				mysqli_stmt_execute($stmt);
+				$res = mysqli_stmt_get_result($stmt);
+				if (!($res->num_rows)){	
+					mysqli_free_result($res);
+					mysqli_next_result($link);
+					$query = 'CALL Addddd(?)';
+					$stmt = mysqli_prepare($link, $query);
+					mysqli_stmt_bind_param($stmt, "s", $aut);
+					mysqli_stmt_execute($stmt);
+					$sql = mysqli_stmt_get_result($stmt);
+					mysqli_free_result($sql);
+					mysqli_next_result($link);
+				}
+				else{
+					mysqli_free_result($res);
+					mysqli_next_result($link);
+				}
+				$pic = $_POST["EnterPicName"];
+				$query = 'CALL checktwo(?, ?)';
+				$stmt = mysqli_prepare($link, $query);
+				mysqli_stmt_bind_param($stmt, "ss", $aut, $pic);
+				mysqli_stmt_execute($stmt);
+				$res = mysqli_stmt_get_result($stmt);
+				if (!($res->num_rows)){	
+					mysqli_free_result($res);
+					mysqli_next_result($link);
+					$sql2 = $link->prepare('Call Proced(?, ?, ?)');
+					$sql2->bind_param("sss", $aut, $pic, $d);
+					$sql2->execute();
+					$sq2 = $sql2->get_result();
+					mysqli_free_result($sq2);
+					mysqli_next_result($link);
+				}
+				else{
+					mysqli_free_result($res);
+					mysqli_next_result($link);
+				}
             }
             else{
                 $result = $link->query('Call pr()');
