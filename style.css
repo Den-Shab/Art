@@ -477,3 +477,17 @@ footer{
     top:10px;
     right:10px;
 }
+
+.block-img{
+    width:300px;
+    display:inline;
+    justify-self:center;
+    margin:auto;
+}
+
+.block{
+    display:flex;
+    flex-direction:column;
+    text-align:center;
+    margin-bottom:30px;
+}

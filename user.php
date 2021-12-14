@@ -87,7 +87,7 @@
                 }
 				mysqli_free_result($id);
 				mysqli_next_result($link);
-                $destination = "C:/Server/data/htdocs/Art/assets/pics_quiz/new_pics/";
+                $destination = "assets/pics_quiz/new_pics/";
                 $format = ".jpg";
                 $d = $destination  . $res . $format;
                 $aut = $_POST['EnterAuthorName'];
@@ -136,8 +136,12 @@
                 $result = $link->query('Call pr()');
                 $enter = "<br>";
                 foreach ($result as $row) {
-                    $string = "painting:" . $row['painting_name'] . $enter;
-                    echo "<div class = 'block'>" . $string .  "</div>";
+                    $string = $row['painting_name'];
+                    $src = $row['reff'];
+                    $author_num = $row['painter_id'];
+                    $sql16 = "select painter_name from painter where painter_id = " .  $author_num .";";
+                    $author = $link->query($sql16) or die('Запрос не удался: ');
+                    echo "<div class = 'block'>" . $string . $enter  . $author . $enter . $enter . "<img class='block-img' src=". $src . ">" . "</div>";
                 }
             }     
         ?>
