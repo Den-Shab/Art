@@ -9,7 +9,32 @@
   </head>
   <body>
   <?php
-      $link = new mysqli("localhost", "root", "","art-quiz");
+      $link = new mysqli("localhost", "root", "");
+      if (!mysqli_select_db($link,"a")){
+        $f = file_get_contents('pr.txt', true);
+        $pieces = explode(";", $f);
+        $link -> query($pieces[0]);
+        $k=0;
+        $link = new mysqli("localhost", "root","", "a");
+        $link->set_charset("utf8");
+        foreach ($pieces as $value)
+        {
+            if(!($k==0)){
+              $link -> query($value);
+              echo mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
+            }
+            $k=100;
+        }
+        $file = file_get_contents('proc.txt', true);
+        $parts = explode("#", $file);
+        //$link -> query("delimiter $$");
+        echo mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
+        foreach ($parts as $value)
+        {
+              $link -> query($value);
+              echo mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
+        }
+      }
   ?>
     <audio id="audio" src="assets/audio/sound.mp3" style="display:none;" controls autoplay></audio>
     <div id="app">

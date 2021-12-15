@@ -1,0 +1,239 @@
+CREATE DATABASE a;
+ALTER DATABASE a DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+
+CREATE TABLE genre (
+    genre_id serial PRIMARY KEY,
+    genre_name varchar(13) NOT NULL,
+    best int
+);
+
+
+CREATE TABLE painter (
+    painter_id serial PRIMARY KEY,
+    painter_name varchar(30) NOT NULL,
+    birth smallint NOT NULL
+);
+
+
+CREATE TABLE arts (
+    painting_id serial NOT NULL PRIMARY KEY,
+    painting_name varchar(50) NOT NULL,
+    painter_id int NOT NULL references painter(painter_id),
+    genre_id int references genre(genre_id),
+    yer integer NOT NULL,
+    description varchar(1000),
+    reff varchar(1000)
+);
+
+
+create table quiz_types (
+	type_id serial PRIMARY KEY,
+	type_name varchar(8)
+);
+
+
+CREATE TABLE quiz (
+    quiz_id serial NOT NULL PRIMARY KEY,
+    quiz_class int references quiz_types(type_id),
+    genre_id int references genre(genre_id),
+    average_result numeric(6,3)
+);
+
+
+CREATE TABLE users (
+    user_id serial NOT NULL PRIMARY KEY,
+    user_name varchar(16),
+    user_password varchar(16),
+    favourite_gen int references genre(genre_id)
+);
+
+create table history (
+	try_id serial NOT NULL PRIMARY KEY,
+	quiz_id	int references quiz(quiz_id),
+	user_id int references users(user_id),
+	res smallint
+);
+
+
+insert into genre (genre_name, best) values ('Portraits', 0),
+('Landscapes', 0),
+('Still life', 0),
+('Impressionism', 0),
+('Expressionism', 0),
+('Avant-garde', 0);
+
+insert into users (user_name, user_password) values ('Gena', 'Asd'),
+('Nagibator228', 'Qewq');
+
+insert into painter(painter_name, birth) values ('Павел Федотов', 1815),
+('Эдгар Дега', 1834),
+('Веронезе', 1528),
+('Илья Репин', 1844),
+('Константин Маковский', 1846),
+('Василий Перов', 1833),
+('Микеланджело', 1475),
+('Пьер Огюст Ренуар', 1841),
+('Ян Вермеер', 1632),
+('Василий Поленов', 1844),
+('Фёдор Васильев', 1850),
+('Виктор Васнецов', 1848),
+('Клод Лоррен', 1600),
+('Жан Фрагонар', 1732),
+('Архип Куинджи', 1842),
+('Пабло Пикассо', 1881),
+('Поль Гоген', 1848),
+('Бартоломео Мурильо', 1617),
+('Питер Брейгель', 1525),
+('Ян ван Эйк', 1395),
+('Рембрандт', 1606),
+('Рафаель', 1483),
+('Василий Суриков', 1848),
+('Иван Шишкин', 1832),
+('Владимир Боровиковский', 1757),
+('Рене Магритт', 1898),
+('Веласкес', 1599),
+('Иван Богданов', 1855),
+('Джон Уильям Уотерхаус', 1849),
+('Николай Богданов-Бельский', 1868),
+('Анри Матисс', 1869),
+('Эдвард Мунк', 1863),
+('Марк Шагал', 1887),
+('Иероним Босх', 1450),
+('Карл Лемох', 1841),
+('Жан Фрагонар', 1732),
+('Франсуа Буше', 1703),
+('Густав Климт', 1862),
+('Вильгельм фон Каульбах', 1805),
+('Андрей Рублев', 1360),
+('Тициан', 1488),
+('Эдуард Мане', 1832),
+('Сальвадор Дали', 1904),
+('Александр Маковский', 1869),
+('Антонис ван Дейк', 1599),
+('Джованни Беллини', 1430),
+('Леонардо да Винчи', 1452),
+('Теодор Жерико', 1791),
+('Жан Этьен Лиотар', 1702),
+('Алексей Венецианов', 1780),
+('Анри де Тулуз-Лотрек', 1864),
+('Карл Брюллов', 1799),
+('Василий Верещагин', 1842),
+('Алексей Саврасов', 1830),
+('Жан Батист Грёз', 1725),
+('Михаил Нестеров', 1862),
+('Василий Тропинин', 1776),
+('Адольф Вильям Бугро', 1825),
+('Кузьма Петров-Водкин', 1878),
+('Жан-Леон Жером', 1824),
+('Исаак Левитан', 1860),
+('Гейнсборо', 1727),
+('Василий Кандинский', 1866),
+('Луи Лагрене', 1725),
+('Анри Руссо', 1844),
+('Иван Айвазовский', 1817),
+('Винсент ван Гог', 1853),
+('Валентин Серов', 1865),
+('Караваджо', 1571),
+('Альбрехт Дюрер', 1471),
+('Эль Греко', 1541),
+('Казимир Малевич', 1879),
+('Эжен Делакруа', 1798),
+('Сандро Боттичелли', 1445),
+('Гюстав Курбе', 1819),
+('Иван Крамской', 1837),
+('Александр Иванов', 1806),
+('Франческо Баккьякка', 1494),
+('Жак-Луи Давид', 1748),
+('Франциско Гоя', 1746),
+('Михаил Врубель', 1856),
+('Поль Деларош', 1797),
+('Джон Констебл', 1776),
+('Корреджо', 1489),
+('Питер Пауль Рубенс', 1577),
+('Жан Энгр', 1780),
+('Никола Пуссен', 1594),
+('Аксели Галлен-Каллела', 1865),
+('Клод Моне', 1840),
+('Николай Рерих', 1847),
+('Жорж Брак', 1882),
+('Наталия Гончарова', 1881),
+('Михаил Ларионов', 1881);
+
+insert into quiz_types (type_name) values ('Artist'),
+('Pictures');
+
+insert into quiz(quiz_class, genre_id, average_result) values ((select type_id from quiz_types where type_name = 'Artist'), 1, 0),
+((select type_id from quiz_types where type_name = 'Artist'), 2, 0),
+((select type_id from quiz_types where type_name = 'Artist'), 3, 0),
+((select type_id from quiz_types where type_name = 'Artist'), 4, 0),
+((select type_id from quiz_types where type_name = 'Artist'), 5, 0),
+((select type_id from quiz_types where type_name = 'Artist'), 6, 0),
+((select type_id from quiz_types where type_name = 'Pictures'), 1, 0),
+((select type_id from quiz_types where type_name = 'Pictures'), 2, 0),
+((select type_id from quiz_types where type_name = 'Pictures'), 3, 0),
+((select type_id from quiz_types where type_name = 'Pictures'), 4, 0),
+((select type_id from quiz_types where type_name = 'Pictures'), 5, 0),
+((select type_id from quiz_types where type_name = 'Pictures'), 6, 0);
+
+insert into arts (painting_name, painter_id, genre_id, yer, reff) values
+('Дама в голубом', (select painter_id from painter where painter_name = 'Гейнсборо'), (select genre_id from genre where genre_name = 'Portraits'), 1780, 'assets/pics_quiz/1/102.jpg'),
+('Портрет Лопухиной', (select painter_id from painter where painter_name = 'Владимир Боровиковский'), (select genre_id from genre where genre_name = 'Portraits'), 1797, 'assets/pics_quiz/1/30.jpg'),
+('Мальчик с собакой', (select painter_id from painter where painter_name = 'Бартоломео Мурильо'), (select genre_id from genre where genre_name = 'Portraits'), 1650, 'assets/pics_quiz/1/37.jpg'),
+('Портрет графини Софьи', (select painter_id from painter where painter_name = 'Константин Маковский'), (select genre_id from genre where genre_name = 'Portraits'), 1890, 'assets/pics_quiz/1/4.jpg'),
+('Варька', (select painter_id from painter where painter_name = 'Карл Лемох'), (select genre_id from genre where genre_name = 'Portraits'), 1893, 'assets/pics_quiz/new_pics/46.jpg'),
+('Дама с горностаем', (select painter_id from painter where painter_name = 'Леонардо да Винчи'), (select genre_id from genre where genre_name = 'Portraits'), 1490, 'assets/pics_quiz/1/66.jpg'),
+('Спящий пастушок', (select painter_id from painter where painter_name = 'Алексей Венецианов'), (select genre_id from genre where genre_name = 'Portraits'), 1826, 'assets/pics_quiz/1/74.jpg'),
+('Инфанта Маргарита', (select painter_id from painter where painter_name = 'Веласкес'), (select genre_id from genre where genre_name = 'Portraits'), 1654, 'assets/pics_quiz/1/78.jpg'),
+('Девушка с горшком роз', (select painter_id from painter where painter_name = 'Василий Тропинин'), (select genre_id from genre where genre_name = 'Portraits'), 1850, 'assets/pics_quiz/1/90.jpg'),
+('Лютнист', (select painter_id from painter where painter_name = 'Караваджо'), (select genre_id from genre where genre_name = 'Portraits'), 1596, 'assets/pics_quiz/1/91.jpg'),
+('Мокрый луг', (select painter_id from painter where painter_name = 'Фёдор Васильев'), (select genre_id from genre where genre_name = 'Landscapes'), 1872, 'assets/pics_quiz/2/10.jpg'),
+('Над вечным покоем', (select painter_id from painter where painter_name = 'Исаак Левитан'), (select genre_id from genre where genre_name = 'Landscapes'), 1894, 'assets/pics_quiz/2/101.jpg'),
+('Избиение младенцев', (select painter_id from painter where painter_name = 'Питер Брейгель'), (select genre_id from genre where genre_name = 'Landscapes'), 1567, 'assets/pics_quiz/2/23.jpg'),
+('Корабельная роща', (select painter_id from painter where painter_name = 'Иван Шишкин'), (select genre_id from genre where genre_name = 'Landscapes'), 1898, 'assets/pics_quiz/2/49.jpg'),
+('Вакханалия', (select painter_id from painter where painter_name = 'Тициан'), (select genre_id from genre where genre_name = 'Landscapes'), 1526, 'assets/pics_quiz/2/56.jpg'),
+('Надоела', (select painter_id from painter where painter_name = 'Александр Маковский'), (select genre_id from genre where genre_name = 'Landscapes'), 1897, 'assets/pics_quiz/2/61.jpg'),
+('Пир богов', (select painter_id from painter where painter_name = 'Джованни Беллини'), (select genre_id from genre where genre_name = 'Landscapes'), 1514, 'assets/pics_quiz/2/65.jpg'),
+('Утро в сосновом лесу', (select painter_id from painter where painter_name = 'Иван Шишкин'), (select genre_id from genre where genre_name = 'Landscapes'), 1889, 'assets/pics_quiz/2/70.jpg'),
+('Грачи прилетели', (select painter_id from painter where painter_name = 'Алексей Саврасов'), (select genre_id from genre where genre_name = 'Landscapes'), 1871, 'assets/pics_quiz/2/83.jpg'),
+('Рожь', (select painter_id from painter where painter_name = 'Иван Шишкин'), (select genre_id from genre where genre_name = 'Landscapes'), 1878, 'assets/pics_quiz/2/98.jpg'),
+('Проводы новобранца', (select painter_id from painter where painter_name = 'Илья Репин'), (select genre_id from genre where genre_name = 'Still life'), 1879, 'assets/pics_quiz/3/11.jpg'),
+('Аленушка', (select painter_id from painter where painter_name = 'Виктор Васнецов'), (select genre_id from genre where genre_name = 'Still life'), 1881, 'assets/pics_quiz/3/13.jpg'),
+('Вечорници', (select painter_id from painter where painter_name = 'Илья Репин'), (select genre_id from genre where genre_name = 'Still life'), 1881, 'sassets/pics_quiz/3/15.jpg'),
+('Фламандские пословицы', (select painter_id from painter where painter_name = 'Питер Брейгель'), (select genre_id from genre where genre_name = 'Still life'), 1559, 'assets/pics_quiz/3/21.jpg'),
+('Тройка', (select painter_id from painter where painter_name = 'Василий Перов'), (select genre_id from genre where genre_name = 'Still life'), 1866, 'assets/pics_quiz/3/38.jpg'),
+('Устный счёт', (select painter_id from painter where painter_name = 'Николай Богданов-Бельский'), (select genre_id from genre where genre_name = 'Still life'), 1895, 'assets/pics_quiz/3/39.jpg'),
+('Сельский крестный ход на Пасхе', (select painter_id from painter where painter_name = 'Василий Перов'), (select genre_id from genre where genre_name = 'Still life'), 1861, 'assets/pics_quiz/3/44.jpg'),
+('Две девушки', (select painter_id from painter where painter_name = 'Пьер Огюст Ренуар'), (select genre_id from genre where genre_name = 'Still life'), 1892, 'assets/pics_quiz/3/60.jpg'),
+('Угол Мулен де ла Галет', (select painter_id from painter where painter_name = 'Анри де Тулуз-Лотрек'), (select genre_id from genre where genre_name = 'Still life'), 1892, 'assets/pics_quiz/3/76.jpg'),
+('Хозяйка и служанка', (select painter_id from painter where painter_name = 'Ян Вермеер'), (select genre_id from genre where genre_name = 'Still life'), 1667, 'assets/pics_quiz/3/8.jpg'),
+('Голубые танцовщицы', (select painter_id from painter where painter_name = 'Эдгар Дега'), (select genre_id from genre where genre_name = 'Impressionism'), 1897, 'assets/pics_quiz/4/1.jpg'),
+('Летний пейзаж', (select painter_id from painter where painter_name = 'Илья Репин'), (select genre_id from genre where genre_name = 'Impressionism'), 1879, 'assets/pics_quiz/4/114.jpg'),
+('Подсолнухи', (select painter_id from painter where painter_name = 'Винсент ван Гог'), (select genre_id from genre where genre_name = 'Impressionism'), 1888, 'assets/pics_quiz/4/117.jpg'),
+('Девочка с персиками', (select painter_id from painter where painter_name = 'Валентин Серов'), (select genre_id from genre where genre_name = 'Impressionism'), 1887, 'assets/pics_quiz/4/118.jpg'),
+('Мост в Шату', (select painter_id from painter where painter_name = 'Пьер Огюст Ренуар'), (select genre_id from genre where genre_name = 'Impressionism'), 1875, 'assets/pics_quiz/4/134.jpg'),
+('Бал в Мулен де ла Галетт', (select painter_id from painter where painter_name = 'Пьер Огюст Ренуар'), (select genre_id from genre where genre_name = 'Impressionism'), 1876, 'assets/pics_quiz/4/140.jpg'),
+('Завтрак гребцов', (select painter_id from painter where painter_name = 'Пьер Огюст Ренуар'), (select genre_id from genre where genre_name = 'Impressionism'), 1881, 'assets/pics_quiz/4/148.jpg'),
+('Демон сидящий', (select painter_id from painter where painter_name = 'Михаил Врубель'), (select genre_id from genre where genre_name = 'Impressionism'), 1890, 'assets/pics_quiz/4/163.jpg'),
+('Вилла Медичи в Риме. Полдень', (select painter_id from painter where painter_name = 'Веласкес'), (select genre_id from genre where genre_name = 'Impressionism'), 1630, 'assets/pics_quiz/4/57.jpg'),
+('Две девушки', (select painter_id from painter where painter_name = 'Пьер Огюст Ренуар'), (select genre_id from genre where genre_name = 'Impressionism'), 1892, 'assets/pics_quiz/4/60.jpg'),
+('Крик', (select painter_id from painter where painter_name = 'Эдвард Мунк'), (select genre_id from genre where genre_name = 'Expressionism'), 1893, 'assets/pics_quiz/5/112.jpg'),
+('Семейный портрет', (select painter_id from painter where painter_name = 'Анри Матисс'), (select genre_id from genre where genre_name = 'Expressionism'), 1911, 'assets/pics_quiz/5/132.jpg'),
+('Любовники', (select painter_id from painter where painter_name = 'Аксели Галлен-Каллела'), (select genre_id from genre where genre_name = 'Expressionism'), 1916, 'assets/pics_quiz/5/202.jpg'),
+('Портрет четы Арнольфини', (select painter_id from painter where painter_name = 'Ян ван Эйк'), (select genre_id from genre where genre_name = 'Expressionism'), 1434, 'assets/pics_quiz/5/22.jpg'),
+('Любительница абсента', (select painter_id from painter where painter_name = 'Пабло Пикассо'), (select genre_id from genre where genre_name = 'Expressionism'), 1901, 'assets/pics_quiz/5/225.jpg'),
+('Дружба', (select painter_id from painter where painter_name = 'Пабло Пикассо'), (select genre_id from genre where genre_name = 'Expressionism'), 1908, 'assets/pics_quiz/5/237.jpg'),
+('Сын человеческий', (select painter_id from painter where painter_name = 'Рене Магритт'), (select genre_id from genre where genre_name = 'Expressionism'), 1964, 'assets/pics_quiz/5/31.jpg'),
+('Прогулка', (select painter_id from painter where painter_name = 'Марк Шагал'), (select genre_id from genre where genre_name = 'Expressionism'), 1918, 'assets/pics_quiz/5/43.jpg'),
+('Девочка на шаре', (select painter_id from painter where painter_name = 'Пабло Пикассо'), (select genre_id from genre where genre_name = 'Expressionism'), 1905, 'assets/pics_quiz/5/64.jpg'),
+('Купание красного коня', (select painter_id from painter where painter_name = 'Кузьма Петров-Водкин'), (select genre_id from genre where genre_name = 'Expressionism'), 1912, 'assets/pics_quiz/5/96.jpg'),
+('Композиция VIII', (select painter_id from painter where painter_name = 'Василий Кандинский'), (select genre_id from genre where genre_name = 'Avant-garde'), 1923, 'assets/pics_quiz/6/105.jpg'),
+('Спящая цыганка', (select painter_id from painter where painter_name = 'Анри Руссо'), (select genre_id from genre where genre_name = 'Avant-garde'), 1897, 'assets/pics_quiz/6/110.jpg'),
+('Я и деревня', (select painter_id from painter where painter_name = 'Марк Шагал'), (select genre_id from genre where genre_name = 'Avant-garde'), 1911, 'assets/pics_quiz/6/153.jpg'),
+('Герника', (select painter_id from painter where painter_name = 'Пабло Пикассо'), (select genre_id from genre where genre_name = 'Avant-garde'), 1937, 'assets/pics_quiz/6/18.jpg'),
+('Скрипка и подсвечник', (select painter_id from painter where painter_name = 'Жорж Брак'), (select genre_id from genre where genre_name = 'Avant-garde'), 1910, 'assets/pics_quiz/6/241.jpg'),
+('Фабрика', (select painter_id from painter where painter_name = 'Наталия Гончарова'), (select genre_id from genre where genre_name = 'Avant-garde'), 1912, 'assets/pics_quiz/6/242.jpg'),
+('Петух', (select painter_id from painter where painter_name = 'Михаил Ларионов'), (select genre_id from genre where genre_name = 'Avant-garde'), 1912, 'assets/pics_quiz/6/243.jpg'),
+('Без названия', (select painter_id from painter where painter_name = 'Казимир Малевич'), (select genre_id from genre where genre_name = 'Avant-garde'), 1916, 'assets/pics_quiz/6/244.jpg'),
+('Авиньонские девицы', (select painter_id from painter where painter_name = 'Пабло Пикассо'), (select genre_id from genre where genre_name = 'Avant-garde'), 1907, 'assets/pics_quiz/6/86.jpg'),
+('Поцелуй', (select painter_id from painter where painter_name = 'Густав Климт'), (select genre_id from genre where genre_name = 'Avant-garde'), 1908, 'assets/pics_quiz/6/97.jpg');

@@ -1,0 +1,89 @@
+
+CREATE TRIGGER asf AFTER INSERT ON quiz
+FOR EACH ROW BEGIN
+update quiz
+set quiz.average_result = (select sum(history.res) from history where history.quiz_id = inserted.quiz_id) / (select count(*) from history where history.quiz_id = inserted.quiz_id)
+WHERE quiz.quiz_id = inserted.quiz_id;
+END
+
+#
+
+
+CREATE DEFINER=root@localhost PROCEDURE Addddd(IN name VARCHAR(100) CHARSET utf8)
+    NO SQL
+BEGIN
+INSERT INTO painter(painter_name, birth) values(name, 0);
+END
+
+#
+
+
+CREATE DEFINER=root@localhost PROCEDURE Proced(IN name VARCHAR(1000) CHARSET utf8, IN pic VARCHAR(1000) CHARSET utf8, IN ref VARCHAR(10000) CHARSET utf8)
+    NO SQL
+BEGIN
+INSERT INTO arts (painter_id, painting_name, yer, reff) values ((select painter_id from painter where (painter_name = name)), pic, 0, ref);
+END
+
+#
+
+
+CREATE DEFINER=root@localhost PROCEDURE checkone(IN name VARCHAR(50) CHARSET utf8)
+    NO SQL
+BEGIN
+select * from painter where painter_name = name;
+end$$
+
+
+#
+
+
+CREATE DEFINER=root@localhost PROCEDURE checktwo(IN name VARCHAR(100) CHARSET utf8, IN pic VARCHAR(100) CHARSET utf8)
+    NO SQL
+BEGIN
+select * from arts where (select painter_id from painter where (painter_name = name)) = arts.painter_id and pic = arts.painting_name;
+end
+
+
+#
+
+
+CREATE DEFINER=root@localhost PROCEDURE del(IN name VARCHAR(50) CHARSET utf8)
+    NO SQL
+BEGIN
+DELETE FROM arts WHERE locate(name, painting_name);
+END
+
+#
+
+
+CREATE DEFINER=root@localhost PROCEDURE finding(IN name VARCHAR(50) CHARSET utf8)
+    NO SQL
+begin
+SELECT * FROM arts WHERE locate(name, painting_name);
+end
+
+#
+
+
+CREATE DEFINER=root@localhost PROCEDURE last(IN a INT(1))
+    NO SQL
+begin
+SELECT * FROM arts ORDER BY painting_id DESC limit a;
+end
+
+#
+
+
+CREATE DEFINER=root@localhost PROCEDURE pr()
+    NO SQL
+begin 
+select * from arts;
+end
+
+#
+
+CREATE DEFINER=root@localhost PROCEDURE quizzzz(IN category INT(20) UNSIGNED, IN result INT(20) UNSIGNED)
+    NO SQL
+begin 
+INSERT INTO history (quiz_id,user_id,res) values (category,1,result);
+end

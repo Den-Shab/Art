@@ -53,8 +53,10 @@
                 print_r($_POST["Pic"]);
                 $enter = "<br>";
                 foreach ($result as $row) {
-                    $string = "painting:" . $row['painting_name'] . $enter;
-                    echo "<div class = 'block'>" . $string .  "</div>";
+                    $string = $row['painting_name'];
+                    $src = $row['reff'];
+                    $author_name = $row['pain_name'];
+					echo "<div class = 'block'>" . $string . $enter  . $author_name . $enter . $enter . "<img class='block-img' src=". $src . ">" . "</div>";
                 }
             }
             elseif( array_key_exists('Del', $_POST) &&  ($_POST["Del"] != "")){
@@ -65,8 +67,10 @@
                 $enter = "<br>";
                 $result = $link->query('Call pr()');
                 foreach ($result as $row) {
-                    $string = "painting:" . $row['painting_name'] . $enter;
-                    echo "<div class = 'block'>" . $string .  "</div>";
+                    $string = $row['painting_name'];
+                    $src = $row['reff'];
+                    $author_name = $row['pain_name'];
+					echo "<div class = 'block'>" . $string . $enter  . $author_name . $enter . $enter . "<img class='block-img' src=". $src . ">" . "</div>";
                 }
                 $_POST["Del"] = "";
             }
@@ -128,7 +132,7 @@
 					mysqli_next_result($link);
 				}
 				else{
-					mysqli_free_result($res);
+					mysqli_free_result($sq2);
 					mysqli_next_result($link);
 				}
             }
@@ -138,10 +142,8 @@
                 foreach ($result as $row) {
                     $string = $row['painting_name'];
                     $src = $row['reff'];
-                    $author_num = $row['painter_id'];
-                    $sql16 = "select painter_name from painter where painter_id = " .  $author_num .";";
-                    $author = $link->query($sql16) or die('Запрос не удался: ');
-                    echo "<div class = 'block'>" . $string . $enter  . $author . $enter . $enter . "<img class='block-img' src=". $src . ">" . "</div>";
+                    $author_name = $row['pain_name'];
+					echo "<div class = 'block'>" . $string . $enter  . $author_name . $enter . $enter . "<img class='block-img' src=". $src . ">" . "</div>";
                 }
             }     
         ?>
