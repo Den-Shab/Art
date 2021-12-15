@@ -65,7 +65,7 @@ const footer = document.querySelector('footer');
         const sett = createDiv('sett', "<a href='#/settings'><img src='assets/home/carbon_settings.svg'></a>");
         const mainDiv = createDiv('main-home', "");
         const logo = createDiv('logo', "<img src='assets/home/logo.svg'>");
-        const buttons =  createDiv('home-buttons', "<a class='home_button'  href='#/artists'>Artists quiz</a><a class='home_button' href='#/pics'>Pictures quiz</a><form action='user.php' method='POST'><input type='text' name='Pic' style='display:none'/><input type='submit' value='Отправить'> </form>");
+        const buttons =  createDiv('home-buttons', "<a class='home_button'  href='#/artists'>Artists quiz</a><a class='home_button' href='#/pics'>Pictures quiz</a><form action='user.php' method='POST'><input type='text' name='Pic' style='display:none'/><input type='submit' value='Gallery' class='mainSubmit'> </form>");
         myDiv.appendChild(sett);
         myDiv.appendChild(mainDiv);
         mainDiv.appendChild(logo);

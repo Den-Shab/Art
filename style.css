@@ -491,3 +491,43 @@ footer{
     text-align:center;
     margin-bottom:30px;
 }
+
+
+.Delll{
+    position:absolute;
+    left:20px;
+    top:38px;
+}
+
+.Delll div{
+    cursor:pointer;
+    background-color: #fff;
+    border-radius: 15px;
+    text-align: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width:180px;
+    margin-bottom:10px;
+}
+
+.Delll p{
+    font-size:14px;
+}
+
+.options{
+    display:flex;
+    width:1000px;
+    justify-content:space-between;
+    flex-wrap: wrap;
+}
+
+
+.mainSubmit{
+    margin: 0 40px;
+    border-radius: 6px;
+    border: 3px solid #fff;
+    background-color: white;
+    color: black;
+    padding: 5px 10px;
+    transition: 0.5s All ease;
+}

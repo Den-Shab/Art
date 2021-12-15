@@ -1,3 +1,7 @@
+<?php Header("Cache-Control: max-age=3000, must-revalidate"); 
+error_reporting(E_ERROR | E_PARSE);
+ini_set('display_errors', 1);
+?>
 <!DOCTYPE html>
 <html>
   <head lang="en">
@@ -21,13 +25,11 @@
         {
             if(!($k==0)){
               $link -> query($value);
-              echo mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
             }
             $k=100;
         }
         $file = file_get_contents('proc.txt', true);
         $parts = explode("#", $file);
-        //$link -> query("delimiter $$");
         echo mysqli_errno($link) . ": " . mysqli_error($link) . "\n";
         foreach ($parts as $value)
         {
@@ -40,7 +42,7 @@
     <div id="app">
       <form action="user.php" method="POST">
         <input type="text" name="Pic" style="display:none"/>
-        <input type="submit" value="Отправить">
+        <input type="submit" value="Gallery" class="mainSubmit">
       </form>
     </div>
     <footer class="footer">

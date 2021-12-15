@@ -6,24 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 </head>
 <body>
-
+    <div class="Delll">
+        <div id="DelAll">
+            <p>Удаление базы данных</p>
+        </div>
+        <div id="DelPc">
+            <p>Очистка галлереи</p>
+        </div>
+        <div id="DelAllTables">
+            <p>Очистка всех таблиц</p>
+        </div>
+    </div>
     <header class="headerAllPics">
         <form action="index.php" method="POST" class="ExAllP">
             <input type="submit" value="На главную">
         </form>
-        <form action="user.php" method="POST" enctype="multipart/form-data">
+        <form action="user.php" method="POST" enctype="multipart/form-data" class="options">
             <div>
-            <h3>Найти/Удалить картину</h3>
-            <div>
-                <input type="text" name="Pic" placeholder="поиск"/>
-                <input type="submit" value="Найти">
-            </div>
-            <div>
-                <input type="text" name="Del" placeholder="удалить картину"/>
-                <input type="submit" value="Удалить">
-            </div>
+                <h3>Найти/Удалить картину</h3>
+                <div>
+                    <input type="text" name="Pic" placeholder="поиск"/>
+                    <input type="submit" value="Найти">
+                </div>
+                <div>
+                    <input type="text" name="Del" placeholder="удалить картину"/>
+                    <input type="submit" value="Удалить">
+                </div>
             </div>
             <div>
                 <h3>Добавить картину</h3>
@@ -36,12 +47,22 @@
                 </div>
                 <input type="submit" value="Добавить новую картину">
             </div>
+            <div>
+                <h3>Замена</h3>
+                <div>
+                    <input type="text" name="defoltPic" placeholder="картина"/>
+                    <input type="text" name="defoltAut" placeholder="автор"/>
+                    <p>Заменить на</p>
+                    <input type="text" name="updPic" placeholder="картина"/>
+                    <input type="text" name="updAut" placeholder="автор"/>
+                </div>
+                <input type="submit" value="Заменить">
+            </div>
         </form>
     </header>
     <div class="main-block">
         <?php 
-			error_reporting(E_ERROR | E_PARSE);
-			ini_set('display_errors', 1);
+
 			$link = new mysqli("localhost", "root", "","a");
             mysqli_query($link,'SET NAMES utf8');
             if($_POST["Pic"] != ""){
@@ -145,6 +166,9 @@
 					echo "<div class = 'block'>" . $string . $enter  . $author_name . $enter . $enter . "<img class='block-img' src=". $src . ">" . "</div>";
                 }
             }
+            elseif(array_key_exists("defoltPic", $_POST) && array_key_exists("defoltAut", $_POST) && array_key_exists("updPic", $_POST) && array_key_exists("updAut", $_POST) && $_POST["defoltPic"]!="" && $_POST["updAut"]!="" && $_POST["updPic"]!="" && $_POST["defoltAut"]!=""){
+                
+            }
             else{
                 $result = $link->query('Call pr()');
                 $enter = "<br>";
@@ -154,8 +178,10 @@
                     $author_name = $row['pain_name'];
 					echo "<div class = 'block'>" . $string . $enter  . $author_name . $enter . $enter . "<img class='block-img' src=". $src . ">" . "</div>";
                 }
-            }     
+                mysqli_free_result($result);
+            }  
         ?>
    </div>
+   <script src="src/js/delB.js"></script>
 </body>
 </html>

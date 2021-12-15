@@ -160,6 +160,10 @@ insert into painter(painter_name, birth) values ('Павел Федотов', 18
 ('Наталия Гончарова', 1881),
 ('Михаил Ларионов', 1881);
 
+Create index genr_name
+on genre(genre_name);
+
+
 insert into quiz_types (type_name) values ('Artist'),
 ('Pictures');
 
