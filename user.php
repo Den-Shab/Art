@@ -40,9 +40,9 @@
     </header>
     <div class="main-block">
         <?php 
-			error_reporting(E_ALL);
+			error_reporting(E_ERROR | E_PARSE);
 			ini_set('display_errors', 1);
-			$link = new mysqli("localhost", "root", "","art");
+			$link = new mysqli("localhost", "root", "","a");
             mysqli_query($link,'SET NAMES utf8');
             if($_POST["Pic"] != ""){
 				$stmt = $link->prepare('CALL finding(?)');
@@ -94,6 +94,7 @@
                 $destination = "assets/pics_quiz/new_pics/";
                 $format = ".jpg";
                 $d = $destination  . $res . $format;
+				rename($_FILES['myFile']['tmp_name'], $d);
                 $aut = $_POST['EnterAuthorName'];
 				$query = 'CALL checkone(?)';
 				$stmt = mysqli_prepare($link, $query);
@@ -132,9 +133,17 @@
 					mysqli_next_result($link);
 				}
 				else{
-					mysqli_free_result($sq2);
+					mysqli_free_result($res);
 					mysqli_next_result($link);
 				}
+				$result = $link->query('Call pr()');
+				$enter = "<br>";
+                foreach ($result as $row) {
+                    $string = $row['painting_name'];
+                    $src = $row['reff'];
+                    $author_name = $row['pain_name'];
+					echo "<div class = 'block'>" . $string . $enter  . $author_name . $enter . $enter . "<img class='block-img' src=". $src . ">" . "</div>";
+                }
             }
             else{
                 $result = $link->query('Call pr()');

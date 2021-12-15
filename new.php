@@ -14,14 +14,17 @@
         echo json_encode($req);
         exit;
     }*/
-	$link = new mysqli("localhost", "root", "","art");
+	$link = new mysqli("localhost", "root", "","a");
     if(isset($_POST['myarray']))
     {
-    $req = false;
+		$req = false;
         ob_start();
-		$clas = 6*($_POST['myarray'][0]-1)+$_POST['myarray'][1];
+		echo $_POST['myarray'][0];
+		echo $_POST['myarray'][1];
+		echo $_POST['myarray'][2];
+		$clas = 6*($_POST['myarray'][2]-1)+$_POST['myarray'][1];
 		$stmt = $link->prepare('CALL quizzzz(?, ?)');
-		$stmt->bind_param("ii", $clas, $_POST['myarray'][2]);
+		$stmt->bind_param("ii", $clas, $_POST['myarray'][0]);
 		$stmt->execute();
 		$stmt->get_result();
         $req = ob_get_contents();

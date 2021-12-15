@@ -1,9 +1,8 @@
 
-CREATE TRIGGER asf AFTER INSERT ON quiz
+CREATE TRIGGER asf AFTER INSERT ON history
 FOR EACH ROW BEGIN
 update quiz
-set quiz.average_result = (select sum(history.res) from history where history.quiz_id = inserted.quiz_id) / (select count(*) from history where history.quiz_id = inserted.quiz_id)
-WHERE quiz.quiz_id = inserted.quiz_id;
+set quiz.average_result = (select sum(history.res) from history where history.quiz_id = quiz.quiz_id) / (select count(*) from history where history.quiz_id = quiz.quiz_id);
 END
 
 #
@@ -31,7 +30,7 @@ CREATE DEFINER=root@localhost PROCEDURE checkone(IN name VARCHAR(50) CHARSET utf
     NO SQL
 BEGIN
 select * from painter where painter_name = name;
-end$$
+end
 
 
 #
@@ -50,16 +49,17 @@ end
 CREATE DEFINER=root@localhost PROCEDURE del(IN name VARCHAR(50) CHARSET utf8)
     NO SQL
 BEGIN
-DELETE FROM arts WHERE locate(name, painting_name);
+DELETE FROM arts WHERE name = painting_name;
 END
-
 #
 
 
 CREATE DEFINER=root@localhost PROCEDURE finding(IN name VARCHAR(50) CHARSET utf8)
     NO SQL
 begin
-SELECT * FROM arts WHERE locate(name, painting_name);
+SELECT arts.*, painter.painter_name as pain_name from arts
+join painter on painter.painter_id = arts.painter_id
+WHERE locate(name, painting_name);
 end
 
 #
@@ -76,8 +76,9 @@ end
 
 CREATE DEFINER=root@localhost PROCEDURE pr()
     NO SQL
-begin 
-select * from arts;
+begin
+select arts.*, painter.painter_name as pain_name from arts
+join painter on painter.painter_id = arts.painter_id;
 end
 
 #
@@ -87,3 +88,30 @@ CREATE DEFINER=root@localhost PROCEDURE quizzzz(IN category INT(20) UNSIGNED, IN
 begin 
 INSERT INTO history (quiz_id,user_id,res) values (category,1,result);
 end
+
+#
+
+CREATE DEFINER=root@localhost PROCEDURE updt(IN name_p VARCHAR(50) CHARSET utf8, IN pic_p VARCHAR(50) CHARSET utf8, IN name_n VARCHAR(50) CHARSET utf8, IN pic_n VARCHAR(50) CHARSET utf8)
+    NO SQL
+BEGIN
+UPDATE arts
+set painting_name = pic_n,
+    painter_id = (select painter_id FROM painter where painter_name = name_n)
+where arts.painting_name = pic_p and painter_id = (select painter_id FROM painter where painter_name = name_p);
+end
+
+#
+
+CREATE DEFINER=root@localhost PROCEDURE del_gal()
+    NO SQL
+BEGIN
+DELETE FROM arts;
+end
+
+#
+
+CREATE DEFINER=root@localhost PROCEDURE drp()
+    NO SQL
+BEGIN
+drop DATABASE a;
+END
